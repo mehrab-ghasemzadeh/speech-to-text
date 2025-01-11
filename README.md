@@ -11,8 +11,7 @@ git clone https://huggingface.co/datasets/Ashegh-Sad-Warrior/Persian_Common_Voic
 if you want to clone the pointers to the data set (not the large files) 
 GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/datasets/Ashegh-Sad-Warrior/Persian_Common_Voice_17_0
 
-
-firt step=>  pre processing the data:
+firt step =>  pre processing the data:
 extracting spectograms from the voice files.
 you are provided with the code to get the spectograms of the voices in the data set. for more info on how the code works checkout the link below:
 

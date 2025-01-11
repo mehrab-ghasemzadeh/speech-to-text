@@ -1,2 +1,5 @@
 /speech_to_text\Persian_Common_Voice_17_0
+/speech_to_text\common voice mozilla
 *.parquet
+*.mp3
+*.tsv
