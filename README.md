@@ -1,7 +1,8 @@
-trainning and fine tuning a transformer model with the persian_common_voice data set from hugging face
+Trainning and fine tuning a transformer model with the persian_common_voice_17_0 and cv-corpus-20.0-2024-12-06-fa datasets from 
 
 
-link to the dateset:
+link to the datesets:
+1:
 https://huggingface.co/datasets/Ashegh-Sad-Warrior/Persian_Common_Voice_17_0
 
 to get and use the dataset you can:
@@ -10,6 +11,10 @@ git clone https://huggingface.co/datasets/Ashegh-Sad-Warrior/Persian_Common_Voic
 
 if you want to clone the pointers to the data set (not the large files) 
 GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/datasets/Ashegh-Sad-Warrior/Persian_Common_Voice_17_0
+
+2:
+https://commonvoice.mozilla.org/en/datasets
+this one's a straight forward download
 
 firt step =>  pre processing the data:
 extracting spectograms from the voice files.
