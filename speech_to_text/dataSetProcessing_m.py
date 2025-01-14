@@ -5,7 +5,7 @@ import librosa
 import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
-# import io
+import csv
 from memory_profiler import memory_usage
 
 def plot_spectrogram(Y, sr, hop_length, y_axis="log", fileName = '_'):
@@ -13,7 +13,7 @@ def plot_spectrogram(Y, sr, hop_length, y_axis="log", fileName = '_'):
     plt.figure(figsize=(25, 10))
     librosa.display.specshow(Y, sr=sr, hop_length=hop_length, x_axis="time", y_axis=y_axis)
     plt.colorbar(format="%+2.f")
-    plt.savefig(join('./speech_to_text\spectogramOutputs', f"{fileName}.png"))
+    plt.savefig(join('speech_to_text\spectogramOutputs\mozilla', f"{fileName}.png"))
     plt.close('all')
     plt.cla()
     plt.clf()
@@ -22,7 +22,6 @@ def plot_spectrogram(Y, sr, hop_length, y_axis="log", fileName = '_'):
 
 def create_spectogram(voice, name):
     try:
-      # file , sr = librosa.load(io.BytesIO(voice['bytes']))
       file , sr = librosa.load(voice)
       FRAME_SIZE = 2048
       HOP_SIZE = 512
@@ -37,32 +36,19 @@ def create_spectogram(voice, name):
 
 if __name__ == "__main__":    
   tsvPath = 'speech_to_text\common_voice_mozilla'
-  tsvFileList = [
-          'clip_durations.tsv',
-          'dev.tsv',
-          'invalidated.tsv',
-          'other.tsv',
-          'reported.tsv',
-          'test.tsv',
-          'train.tsv',
-          'unvalidated_sentences.tsv',
-          'validated.tsv',
-          'validated_sentences.tsv'
-        ]
-  for file in listdir(tsvPath)[1:]:
+  tsvFiles = [f for f in listdir(tsvPath)[2:]]
+  print(tsvFiles)
+  i = 0
+  for file in tsvFiles:
     try:
-        df = pd.read_csv(join(tsvPath,file), sep='\t')
-        print(df)
-  #     df = pd.read_parquet(join(path,file))
-  #     audios = df.audio
-  #     clientIds = df.client_id
-  #     sentences = df.sentence
-  #     print(file)
-  #     del df, file
-  #     for audio, clientId, sentence in zip(audios, clientIds, sentences):
-  #       create_spectogram(audio, f"{i}-{clientId}")
-  #       print(i)
-  #       i+=1
-  #     del audios, clientIds, sentences
+        df = pd.read_csv(join(tsvPath,file), sep='\t',quoting=csv.QUOTE_NONE)
+        voicePaths = df.path
+        nameIds = df.sentence_id
+        del df, file
+        for voicePath, nameId in zip( voicePaths, nameIds):
+          create_spectogram(join('speech_to_text\common_voice_mozilla\clips',voicePath), f"{i}-{nameId}")
+          print(i)
+          i+=1
+        del voicePaths, nameIds
     except:
       print(f"error on : {file}")

@@ -13,7 +13,7 @@ def plot_spectrogram(Y, sr, hop_length, y_axis="log", fileName = '_'):
     plt.figure(figsize=(25, 10))
     librosa.display.specshow(Y, sr=sr, hop_length=hop_length, x_axis="time", y_axis=y_axis)
     plt.colorbar(format="%+2.f")
-    plt.savefig(join('./speech_to_text\spectogramOutputs', f"{fileName}.png"))
+    plt.savefig(join('speech_to_text\spectogramOutputs\hugging_face', f"{fileName}.png"))
     plt.close('all')
     plt.cla()
     plt.clf()
@@ -30,25 +30,28 @@ def create_spectogram(voice, name):
       Y_log_file = librosa.power_to_db(Y_file)
       plot_spectrogram(Y=Y_log_file, sr= sr, hop_length= HOP_SIZE, y_axis="log", fileName = name)
       del file, sr
-      print(memory_usage())
+      # print(memory_usage())
     except:
       print(f"error on voice : {name}")
 
 if __name__ == "__main__":    
   path = 'speech_to_text\Persian_Common_Voice_17_0\data'
-  i=1
-  for file in listdir(path):
-    try:
-      df = pd.read_parquet(join(path,file))
+  files = [f for f in listdir(path)]
+  i=0
+  fileIter = iter(files)
+  # for f in files:
+  try:
+    while True:
+      f = next(fileIter)
+      df = pd.read_parquet(join(path,f))
       audios = df.audio
-      clientIds = df.client_id
       sentences = df.sentence
-      print(file)
-      del df, file
-      for audio, clientId, sentence in zip(audios, clientIds, sentences):
-        create_spectogram(audio, f"{i}-{clientId}")
+      print(f)
+      del df, f
+      for audio, sentence in zip(audios, sentences):
+        create_spectogram(audio, f"{i}-{sentence}")
         print(i)
         i+=1
-      del audios, clientIds, sentences
-    except:
-      print(f"error on : {file}")
+      del audios, sentences
+  except:
+    print(f"error on : file")
