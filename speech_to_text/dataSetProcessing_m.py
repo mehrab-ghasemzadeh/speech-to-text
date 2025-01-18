@@ -43,12 +43,12 @@ if __name__ == "__main__":
     try:
         df = pd.read_csv(join(tsvPath,file), sep='\t',quoting=csv.QUOTE_NONE)
         voicePaths = df.path
-        nameIds = df.sentence_id
+        names = df.sentence
         del df, file
-        for voicePath, nameId in zip( voicePaths, nameIds):
-          create_spectogram(join('speech_to_text\common_voice_mozilla\clips',voicePath), f"{i}-{nameId}")
+        for voicePath, name in zip( voicePaths, names):
+          create_spectogram(join('speech_to_text\common_voice_mozilla\clips',voicePath), f"{i}-{name}")
           print(i)
           i+=1
-        del voicePaths, nameIds
+        del voicePaths, names
     except:
       print(f"error on : {file}")
